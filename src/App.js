@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Form from './Form';
+import PostList from './PostList';
 import './App.css';
 
+
 function App() {
+  const [posts, setPosts] = useState([]);
+
+  function addPost(newPostTitle) {
+    const newPost = { id: crypto.randomUUID(), title: newPostTitle };
+    setPosts((currentPosts) => [newPost, ...currentPosts]);
+  }
+
+  function deletePost(id) {
+    setPosts((currentPosts) => currentPosts.filter((post) => post.id !== id));
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Form addPost={addPost} />
+      <PostList posts={posts} deletePost={deletePost} />
     </div>
   );
 }
